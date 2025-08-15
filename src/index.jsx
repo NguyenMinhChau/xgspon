@@ -3,7 +3,7 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
 import { BrowserRouter, Navigate, useRoutes } from 'react-router-dom';
 
-import Films from './Films';
+import Films from './films';
 import Games from './games';
 import PageNotFound from './notfoundpage';
 import Videos from './videos';
