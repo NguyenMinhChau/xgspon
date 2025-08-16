@@ -198,6 +198,7 @@ export default function RenderList({
 						transform: 'translate(-50%, -50%)',
 						width: { xs: '80%', sm: 350, md: 360 },
 						minHeight: { xs: 250, sm: 280, md: 280 },
+						backgroundColor: '#fff',
 						backgroundImage: `url(${imgPopupProgress})`,
 						backgroundSize: '100% 100%',
 						backgroundPosition: 'center',
