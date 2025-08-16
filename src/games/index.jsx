@@ -22,10 +22,12 @@ export default function Games() {
 		{
 			img: games01,
 			imgBtnDownload: btnDownload,
+			// pathDownload: 'games/call-of-duty-black-ops-coldwar.',
 		},
 		{
 			img: games02,
 			imgBtnDownload: btnDownload,
+			// pathDownload: 'games/red-dead-redemption-2',
 		},
 		{
 			img: games03,
@@ -35,6 +37,7 @@ export default function Games() {
 		{
 			img: games04,
 			imgBtnDownload: btnDownload,
+			// pathDownload: 'games/il-2-sturmovik-battle-of-stalingrad',
 		},
 		{
 			img: games05,

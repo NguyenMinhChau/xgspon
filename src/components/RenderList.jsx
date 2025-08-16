@@ -166,8 +166,8 @@ export default function RenderList({
 										onClick={(e) => {
 											e.stopPropagation();
 											if (pathDownload) {
-												setOpen(true);
-												setProgress(0);
+												// setOpen(true);
+												// setProgress(0);
 												downloadFile(pathDownload);
 											}
 										}}
