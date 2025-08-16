@@ -8,4 +8,13 @@ export default defineConfig({
 	build: {
 		outDir: 'dist', // Thư mục đầu ra mặc định của Vite
 	},
+	server: {
+		proxy: {
+			'/api': {
+				target: 'http://210.245.15.5',
+				changeOrigin: true,
+				rewrite: (path) => path.replace(/^\/api/, ''),
+			},
+		},
+	},
 });

@@ -1,4 +1,5 @@
 import CloseIcon from '@mui/icons-material/Close';
+import DownloadIcon from '@mui/icons-material/Download';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
 import CardMedia from '@mui/material/CardMedia';
@@ -9,9 +10,8 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Modal from '@mui/material/Modal';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import popupProgress from '../assets/images/popup01.png';
 import popupProgressComleted from '../assets/images/popup02.png';
 
 const SyledCard = styled(Card)(({ theme }) => ({
@@ -58,6 +58,7 @@ export default function RenderList({
 	const [open, setOpen] = useState(false);
 	const [progress, setProgress] = useState(0);
 	const navigate = useNavigate();
+	const abortControllerRef = useRef(null);
 
 	const handleFocus = (index) => {
 		setHoveredIndex(index);
@@ -74,37 +75,90 @@ export default function RenderList({
 	};
 
 	const handleClose = () => {
+		if (abortControllerRef.current) {
+			abortControllerRef.current.abort();
+		}
 		setOpen(false);
 		setProgress(0);
 	};
 
-	const downloadFile = (pathDownload) => {
-		const ip = import.meta.env.VITE_IP_V4 || 'default-ip';
-		const protocol = 'http://'; // Hoặc 'https://' tùy môi trường
-		const downloadUrl = `${protocol}${ip}/${pathDownload}`;
-
-		// Kích hoạt download
-		window.open(downloadUrl, '_self');
-
-		// Giả lập tiến trình download
-		let fakeProgress = 0;
-		const interval = setInterval(() => {
-			fakeProgress += Math.random() * 20;
-			if (fakeProgress >= 100) {
-				fakeProgress = 100;
-				clearInterval(interval);
-				// Không tự động đóng popup khi hoàn tất
+	const downloadFile = async (pathDownload) => {
+		try {
+			abortControllerRef.current = new AbortController();
+			setOpen(true);
+			setProgress(0);
+			const ip = import.meta.env.VITE_IP_V4;
+			const protocol = 'http://'; // Hoặc 'https://' tùy môi trường
+			const downloadUrl = `/api/${pathDownload}`;
+			const response = await fetch(downloadUrl, {
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/octet-stream',
+				},
+				signal: abortControllerRef.current.signal,
+			});
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
 			}
-			setProgress(fakeProgress);
-		}, 500);
+			const contentLength = response.headers.get('Content-Length');
+			const reader = response.body.getReader();
+			const total = contentLength ? parseInt(contentLength, 10) : 0;
+			let loaded = 0;
+			const stream = new ReadableStream({
+				start(controller) {
+					function push() {
+						reader
+							.read()
+							.then(({ done, value }) => {
+								if (done) {
+									controller.close();
+									return;
+								}
+								loaded += value.length;
+								setProgress(total ? (loaded / total) * 100 : 0);
+								controller.enqueue(value);
+								push();
+							})
+							.catch((error) => {
+								if (error.name === 'AbortError') {
+									controller.close();
+									return;
+								}
+								throw error;
+							});
+					}
+					push();
+				},
+			});
+			const blob = await new Response(stream).blob();
+			const url = URL.createObjectURL(blob);
 
-		// Tự động đóng popup sau 10 giây nếu chưa hoàn tất
-		setTimeout(() => {
-			if (fakeProgress < 100) {
-				handleClose();
-				clearInterval(interval);
+			const contentDisposition = response.headers.get('Content-Disposition');
+			let fileName = pathDownload.split('/').pop();
+			if (contentDisposition && contentDisposition.includes('filename=')) {
+				const match = contentDisposition.match(/filename="([^"]+)"/);
+				if (match) fileName = match[1];
 			}
-		}, 10000);
+
+			const link = document.createElement('a');
+			link.href = url;
+			link.download = fileName || 'downloaded_file';
+			document.body.appendChild(link);
+			link.click();
+
+			document.body.removeChild(link);
+			URL.revokeObjectURL(url);
+			setOpen(false);
+			setProgress(100);
+		} catch (error) {
+			if (error.name !== 'AbortError') {
+				console.error('Download error:', error);
+			}
+			setOpen(false);
+			setProgress(0);
+		} finally {
+			abortControllerRef.current = null;
+		}
 	};
 
 	return (
@@ -140,16 +194,16 @@ export default function RenderList({
 								{h1Text && (
 									<div
 										className="
-											absolute 
-											top-4 
-											left-4 lg:top-3 lg:left-3
-											md:top-8 md:left-8
-											text-[#19335A] 
-											rounded-md 
-											uppercase 
-											font-bold 
-											text-[1.2rem] lg:text-[1rem] md:text-[1.5rem]
-										"
+                      absolute 
+                      top-4 
+                      left-4 lg:top-3 lg:left-3
+                      md:top-8 md:left-8
+                      text-[#19335A] 
+                      rounded-md 
+                      uppercase 
+                      font-bold 
+                      text-[1.2rem] lg:text-[1rem] md:text-[1.5rem]
+                    "
 									>
 										{h1Text}
 									</div>
@@ -166,8 +220,6 @@ export default function RenderList({
 										onClick={(e) => {
 											e.stopPropagation();
 											if (pathDownload) {
-												// setOpen(true);
-												// setProgress(0);
 												downloadFile(pathDownload);
 											}
 										}}
@@ -197,7 +249,7 @@ export default function RenderList({
 						minHeight: { xs: 250, sm: 280, md: 280 },
 						backgroundColor: '#fff',
 						backgroundImage: `url(${
-							progress >= 100 ? popupProgressComleted : popupProgress
+							progress >= 100 ? popupProgressComleted : null
 						})`,
 						backgroundSize: '100% 100%',
 						backgroundPosition: 'center',
@@ -216,11 +268,38 @@ export default function RenderList({
 							position: 'absolute',
 							right: 8,
 							top: 8,
-							color: '#000', // Màu trắng để nổi trên background
+							color: '#000',
 						}}
 					>
 						<CloseIcon />
 					</IconButton>
+					{/* CONTENT THÔNG BÁO ĐANG UPLOAD FILE */}
+					{progress < 100 && (
+						<div className="flex flex-col items-center justìy-center gap-2">
+							<DownloadIcon sx={{ fontSize: 40, color: '#8FCDEB' }} />
+							<Typography
+								id="download-progress-description"
+								variant="h6"
+								component="h2"
+								sx={{ color: '#000', fontWeight: 700, textAlign: 'center' }}
+							>
+								Đang tải file xuống
+							</Typography>
+							<Typography
+								id="download-progress-description"
+								variant="h6"
+								component="h6"
+								sx={{
+									color: '#000',
+									fontWeight: 500,
+									fontSize: 14,
+									textAlign: 'center',
+								}}
+							>
+								Quá trình tải file đang diễn ra, vui lòng chờ trong giây lát...
+							</Typography>
+						</div>
+					)}
 					<div
 						style={{
 							width: '100%',
