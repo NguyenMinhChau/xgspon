@@ -57,6 +57,7 @@ export default function RenderList({
 	const [hoveredIndex, setHoveredIndex] = useState(null);
 	const [open, setOpen] = useState(false);
 	const [progress, setProgress] = useState(0);
+	const [imgPopupProgress, setImgPopupProgress] = useState(popupProgress);
 	const navigate = useNavigate();
 
 	const handleFocus = (index) => {
@@ -91,6 +92,7 @@ export default function RenderList({
 		const interval = setInterval(() => {
 			fakeProgress += Math.random() * 20;
 			if (fakeProgress >= 100) {
+				setImgPopupProgress(popupProgressComleted);
 				fakeProgress = 100;
 				clearInterval(interval);
 				// Không tự động đóng popup khi hoàn tất
@@ -195,9 +197,7 @@ export default function RenderList({
 						transform: 'translate(-50%, -50%)',
 						width: { xs: '80%', sm: 350, md: 360 },
 						minHeight: { xs: 250, sm: 280, md: 280 },
-						backgroundImage: `url(${
-							progress >= 100 ? popupProgressComleted : popupProgress
-						})`,
+						backgroundImage: `url(${imgPopupProgress})`,
 						backgroundSize: '100% 100%',
 						backgroundPosition: 'center',
 						borderRadius: 2,
