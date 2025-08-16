@@ -291,7 +291,7 @@ export default function MainContent() {
 					>
 						<CardMedia
 							component="img"
-							alt="green iguana"
+							alt="IMG"
 							image={cardData[0].img}
 							sx={{
 								aspectRatio: '16 / 9',
@@ -327,7 +327,7 @@ export default function MainContent() {
 					>
 						<CardMedia
 							component="img"
-							alt="green iguana"
+							alt="IMG"
 							image={cardData[1].img}
 							aspect-ratio="16 / 9"
 							sx={{
@@ -364,7 +364,7 @@ export default function MainContent() {
 					>
 						<CardMedia
 							component="img"
-							alt="green iguana"
+							alt="IMG"
 							image={cardData[2].img}
 							sx={{
 								height: { sm: 'auto', md: '50%' },
@@ -479,7 +479,7 @@ export default function MainContent() {
 					>
 						<CardMedia
 							component="img"
-							alt="green iguana"
+							alt="IMG"
 							image={cardData[5].img}
 							sx={{
 								height: { sm: 'auto', md: '50%' },

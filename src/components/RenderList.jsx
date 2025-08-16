@@ -1,47 +1,30 @@
-import { Button, SvgIcon } from '@mui/material';
-import Avatar from '@mui/material/Avatar';
-import AvatarGroup from '@mui/material/AvatarGroup';
+import CloseIcon from '@mui/icons-material/Close';
 import Box from '@mui/material/Box';
 import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
+import Fade from '@mui/material/Fade';
 import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import LinearProgress from '@mui/material/LinearProgress';
+import Modal from '@mui/material/Modal';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import React from 'react';
-
-const cardData = [
-	{
-		img: 'https://picsum.photos/800/450?random=1',
-		tag: 'Engineering',
-		title: 'Revolutionizing software development with cutting-edge tools',
-		description:
-			'Our latest engineering tools are designed to streamline workflows and boost productivity. Discover how these innovations are transforming the software development landscape.',
-		authors: [
-			{ name: 'Remy Sharp', avatar: '/static/images/avatar/1.jpg' },
-			{ name: 'Travis Howard', avatar: '/static/images/avatar/2.jpg' },
-		],
-	},
-	2,
-	3,
-	4,
-	5,
-	6,
-	7,
-	8,
-	9,
-	10,
-];
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import popupProgress from '../assets/images/popup_download.png';
+import popupProgressComleted from '../assets/images/popup_download_comleted.png';
 
 const SyledCard = styled(Card)(({ theme }) => ({
 	display: 'flex',
 	flexDirection: 'column',
 	padding: 0,
 	height: '100%',
-	backgroundColor: (theme.vars || theme).palette.background.paper,
+	backgroundColor: 'transparent',
+	position: 'relative',
+	transition: 'all 0.3s ease',
 	'&:hover': {
-		backgroundColor: 'transparent',
 		cursor: 'pointer',
+		transform: 'scale(1.01)',
 	},
 	'&:focus-visible': {
 		outline: '3px solid',
@@ -50,160 +33,230 @@ const SyledCard = styled(Card)(({ theme }) => ({
 	},
 }));
 
-const SyledCardContent = styled(CardContent)({
-	display: 'flex',
-	flexDirection: 'column',
-	gap: 4,
-	padding: 16,
-	flexGrow: 1,
-	'&:last-child': {
-		paddingBottom: 16,
+const DownloadButton = styled('img')(({ theme }) => ({
+	position: 'absolute',
+	bottom: '10px',
+	left: '50%',
+	transform: 'translateX(-50%)',
+	width: '95%',
+	height: 'auto',
+	objectFit: 'contain',
+	cursor: 'pointer',
+	transition: 'all 0.3s ease',
+	'&:hover': {
+		transform: 'translateX(-50%) scale(1)',
+		filter: 'brightness(1.1)',
 	},
-});
+}));
 
-const StyledTypography = styled(Typography)({
-	display: '-webkit-box',
-	WebkitBoxOrient: 'vertical',
-	WebkitLineClamp: 2,
-	overflow: 'hidden',
-	textOverflow: 'ellipsis',
-});
-
-function Author({ authors }) {
-	return (
-		<Box
-			sx={{
-				display: 'flex',
-				flexDirection: 'row',
-				gap: 2,
-				alignItems: 'center',
-				justifyContent: 'space-between',
-				padding: '16px',
-			}}
-		>
-			<Box
-				sx={{
-					display: 'flex',
-					flexDirection: 'row',
-					gap: 1,
-					alignItems: 'center',
-				}}
-			>
-				<AvatarGroup max={3}>
-					{authors.map((author, index) => (
-						<Avatar
-							key={index}
-							alt={author.name}
-							src={author.avatar}
-							sx={{ width: 24, height: 24 }}
-						/>
-					))}
-				</AvatarGroup>
-				<Typography variant="caption">
-					{authors.map((author) => author.name).join(', ')}
-				</Typography>
-			</Box>
-			<Typography variant="caption">July 14, 2021</Typography>
-		</Box>
-	);
-}
-
-const DownloadIcon = () => {
-	return (
-		<SvgIcon sx={{ height: 21, width: 100 }}>
-			<svg
-				class="w-6 h-6 text-gray-800 dark:text-white"
-				aria-hidden="true"
-				xmlns="http://www.w3.org/2000/svg"
-				width="24"
-				height="24"
-				fill="none"
-				viewBox="0 0 24 24"
-			>
-				<path
-					stroke="currentColor"
-					stroke-linecap="round"
-					stroke-linejoin="round"
-					stroke-width="2"
-					d="M12 13V4M7 14H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2m-1-5-4 5-4-5m9 8h.01"
-				/>
-			</svg>
-		</SvgIcon>
-	);
-};
-
-export default function RenderList({ data = cardData }) {
-	const [focusedCardIndex, setFocusedCardIndex] = React.useState(null);
+export default function RenderList({
+	data = [],
+	columns = 12,
+	mdColsGird = 2,
+}) {
+	const [hoveredIndex, setHoveredIndex] = useState(null);
+	const [open, setOpen] = useState(false);
+	const [progress, setProgress] = useState(0);
+	const navigate = useNavigate();
 
 	const handleFocus = (index) => {
-		setFocusedCardIndex(index);
+		setHoveredIndex(index);
 	};
 
 	const handleBlur = () => {
-		setFocusedCardIndex(null);
+		setHoveredIndex(null);
 	};
+
+	const handleClick = (path) => {
+		if (path) {
+			navigate(path);
+		}
+	};
+
+	const handleClose = () => {
+		setOpen(false);
+		setProgress(0);
+	};
+
+	const downloadFile = (pathDownload) => {
+		const ip = import.meta.env.VITE_IP_V4 || 'default-ip';
+		const protocol = 'http://'; // Hoặc 'https://' tùy môi trường
+		const downloadUrl = `${protocol}${ip}/${pathDownload}`;
+
+		// Kích hoạt download
+		window.open(downloadUrl, '_self');
+
+		// Giả lập tiến trình download
+		let fakeProgress = 0;
+		const interval = setInterval(() => {
+			fakeProgress += Math.random() * 20;
+			if (fakeProgress >= 100) {
+				fakeProgress = 100;
+				clearInterval(interval);
+				// Không tự động đóng popup khi hoàn tất
+			}
+			setProgress(fakeProgress);
+		}, 500);
+
+		// Tự động đóng popup sau 10 giây nếu chưa hoàn tất
+		setTimeout(() => {
+			if (fakeProgress < 100) {
+				handleClose();
+				clearInterval(interval);
+			}
+		}, 10000);
+	};
+
 	return (
-		<Grid container spacing={2} columns={12}>
-			{data?.map((item, index) => {
-				return (
-					<Grid key={index} size={{ xs: 12, md: 4 }}>
-						<SyledCard
-							variant="outlined"
-							onFocus={() => handleFocus(2)}
-							onBlur={handleBlur}
-							tabIndex={0}
-							className={focusedCardIndex === 2 ? 'Mui-focused' : ''}
-							sx={{ height: '100%' }}
-						>
-							<CardMedia
-								component="img"
-								alt="green iguana"
-								image={cardData[0].img}
-								sx={{
-									height: { sm: 'auto', md: '50%' },
-									aspectRatio: { sm: '16 / 9', md: '' },
+		<>
+			<Grid container spacing={2} columns={columns}>
+				{data?.map((item, index) => {
+					const {
+						h1Text,
+						img,
+						imgHover,
+						path,
+						imgBtnDownload,
+						alt,
+						pathDownload,
+					} = item;
+					return (
+						<Grid key={index} size={{ xs: 12, md: mdColsGird }}>
+							<SyledCard
+								variant="outlined"
+								onMouseEnter={() => handleFocus(index)}
+								onMouseLeave={handleBlur}
+								onFocus={() => handleFocus(index)}
+								onBlur={handleBlur}
+								onClick={() => {
+									if (path) {
+										handleClick(path);
+									}
 								}}
-							/>
-							<SyledCardContent>
-								<Typography gutterBottom variant="caption" component="div">
-									{cardData[0].tag}
-								</Typography>
-								<Typography gutterBottom variant="h6" component="div">
-									{cardData[0].title}
-								</Typography>
-								<StyledTypography
-									variant="body2"
-									color="text.secondary"
-									gutterBottom
-								>
-									{cardData[0].description}
-								</StyledTypography>
-							</SyledCardContent>
-							<Author authors={cardData[0].authors} />
-							<Button
-								fullWidth
-								variant="container"
-								onClick={() => alert('DOWNLOAD...')}
-								size="large"
-								style={{
-									borderRadius: 0,
-									backgroundColor: '#16a34a',
-								}}
-								startIcon={<DownloadIcon />}
+								tabIndex={0}
+								className={hoveredIndex === index ? 'Mui-focused' : ''}
+								sx={{ height: '100%' }}
 							>
-								<Typography
-									fontSize={14}
-									fontWeight={700}
-									color="#FFF"
-									component="div"
-								>
-									DOWNLOAD
-								</Typography>
-							</Button>
-						</SyledCard>
-					</Grid>
-				);
-			})}
-		</Grid>
+								{h1Text && (
+									<div
+										className="
+											absolute 
+											top-4 
+											left-4 lg:top-3 lg:left-3
+											md:top-8 md:left-8
+											text-[#19335A] 
+											rounded-md 
+											uppercase 
+											font-bold 
+											text-[1.2rem] lg:text-[1rem] md:text-[1.5rem]
+										"
+									>
+										{h1Text}
+									</div>
+								)}
+								<CardMedia
+									component="img"
+									alt={alt || 'Card Image'}
+									image={imgHover && hoveredIndex === index ? imgHover : img}
+								/>
+								{imgBtnDownload && (
+									<DownloadButton
+										src={imgBtnDownload}
+										alt={alt ? `${alt} Download Button` : 'Download Button'}
+										onClick={(e) => {
+											e.stopPropagation();
+											if (pathDownload) {
+												setOpen(true);
+												setProgress(0);
+												downloadFile(pathDownload);
+											}
+										}}
+									/>
+								)}
+							</SyledCard>
+						</Grid>
+					);
+				})}
+			</Grid>
+
+			<Modal
+				open={open}
+				onClose={handleClose}
+				aria-labelledby="download-progress-modal"
+				aria-describedby="download-progress-description"
+				TransitionComponent={Fade}
+				TransitionProps={{ timeout: 600 }}
+			>
+				<Box
+					sx={{
+						position: 'absolute',
+						top: '50%',
+						left: '50%',
+						transform: 'translate(-50%, -50%)',
+						width: { xs: '80%', sm: 350, md: 360 },
+						minHeight: { xs: 250, sm: 280, md: 280 },
+						backgroundImage: `url(${
+							progress >= 100 ? popupProgressComleted : popupProgress
+						})`,
+						backgroundSize: '100% 100%',
+						backgroundPosition: 'center',
+						borderRadius: 2,
+						boxShadow: 24,
+						p: 4,
+						display: 'flex',
+						flexDirection: 'column',
+						alignItems: 'center',
+					}}
+				>
+					<IconButton
+						aria-label="close"
+						onClick={handleClose}
+						sx={{
+							position: 'absolute',
+							right: 8,
+							top: 8,
+							color: '#000', // Màu trắng để nổi trên background
+						}}
+					>
+						<CloseIcon />
+					</IconButton>
+					<div
+						style={{
+							width: '100%',
+							position: 'absolute',
+							bottom: 20,
+							display: 'flex',
+							flexDirection: 'column',
+							alignItems: 'center',
+							justifyContent: 'center',
+						}}
+					>
+						<LinearProgress
+							variant="determinate"
+							value={progress}
+							sx={{
+								width: '95%',
+								height: 10,
+								borderRadius: 5,
+								mb: 2,
+								backgroundColor: '#EEF9FF',
+								'& .MuiLinearProgress-bar': {
+									borderRadius: 5,
+									backgroundColor: '#8FCDEB',
+								},
+							}}
+						/>
+						<Typography
+							variant="body1"
+							fontSize={20}
+							fontWeight={600}
+							sx={{ color: '#000' }}
+						>
+							{Math.round(progress)}%
+						</Typography>
+					</div>
+				</Box>
+			</Modal>
+		</>
 	);
 }

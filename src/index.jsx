@@ -1,20 +1,21 @@
 import { StyledEngineProvider } from '@mui/material/styles';
 import * as React from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { BrowserRouter, Navigate, useRoutes } from 'react-router-dom';
+import { BrowserRouter, useRoutes } from 'react-router-dom';
 
 import Films from './films';
 import Games from './games';
+import Home from './home';
 import PageNotFound from './notfoundpage';
-import Videos from './videos';
+import OperatingSystems from './operating-systems';
 
 function AppRoutes() {
 	const routes = useRoutes([
-		// { path: '/', element: <Home /> },
-		{ path: '/', element: <Navigate to="/films" replace /> },
+		// { path: '/', element: <Navigate to="/films" replace /> },
+		{ path: '/', element: <Home /> },
 		{ path: '/films', element: <Films /> },
 		{ path: '/games', element: <Games /> },
-		{ path: '/videos', element: <Videos /> },
+		{ path: '/operating-systems', element: <OperatingSystems /> },
 		{ path: '*', element: <PageNotFound /> },
 	]);
 	return routes;
