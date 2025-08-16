@@ -10,6 +10,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Modal from '@mui/material/Modal';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
+import axios from 'axios';
 import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import popupProgressComleted from '../assets/images/popup02.png';
@@ -87,55 +88,29 @@ export default function RenderList({
 			abortControllerRef.current = new AbortController();
 			setOpen(true);
 			setProgress(0);
+
 			const ip = import.meta.env.VITE_IP_V4;
 			const host = import.meta.env.VITE_HOST;
 			const protocol = 'http://'; // Hoặc 'https://' tùy môi trường
-			const downloadUrl = `${protocol}/${host}/${pathDownload}`;
-			// const downloadUrl = `/api/${pathDownload}`;
-			const response = await fetch(downloadUrl, {
-				method: 'GET',
+			const downloadUrl = `${protocol}${host}/${pathDownload}`;
+
+			const response = await axios.get(downloadUrl, {
+				responseType: 'blob', // Important for handling binary data
 				headers: {
 					'Content-Type': 'application/octet-stream',
 				},
 				signal: abortControllerRef.current.signal,
-			});
-			if (!response.ok) {
-				throw new Error('Network response was not ok');
-			}
-			const contentLength = response.headers.get('Content-Length');
-			const reader = response.body.getReader();
-			const total = contentLength ? parseInt(contentLength, 10) : 0;
-			let loaded = 0;
-			const stream = new ReadableStream({
-				start(controller) {
-					function push() {
-						reader
-							.read()
-							.then(({ done, value }) => {
-								if (done) {
-									controller.close();
-									return;
-								}
-								loaded += value.length;
-								setProgress(total ? (loaded / total) * 100 : 0);
-								controller.enqueue(value);
-								push();
-							})
-							.catch((error) => {
-								if (error.name === 'AbortError') {
-									controller.close();
-									return;
-								}
-								throw error;
-							});
-					}
-					push();
+				onDownloadProgress: (progressEvent) => {
+					const total = progressEvent.total;
+					const loaded = progressEvent.loaded;
+					setProgress(total ? (loaded / total) * 100 : 0);
 				},
 			});
-			const blob = await new Response(stream).blob();
+
+			const blob = response.data;
 			const url = URL.createObjectURL(blob);
 
-			const contentDisposition = response.headers.get('Content-Disposition');
+			const contentDisposition = response.headers['content-disposition'];
 			let fileName = pathDownload.split('/').pop();
 			if (contentDisposition && contentDisposition.includes('filename=')) {
 				const match = contentDisposition.match(/filename="([^"]+)"/);

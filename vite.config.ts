@@ -11,10 +11,11 @@ export default defineConfig({
 	server: {
 		proxy: {
 			'/api': {
-				target: 'http://210.245.15.5',
+				target: 'http://downloadtestspeed.vn',
 				changeOrigin: true,
 				rewrite: (path) => path.replace(/^\/api/, ''),
 			},
 		},
+		https: false, // Ensure Vite serves over HTTP
 	},
 });
