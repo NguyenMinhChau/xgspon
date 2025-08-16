@@ -57,7 +57,6 @@ export default function RenderList({
 	const [hoveredIndex, setHoveredIndex] = useState(null);
 	const [open, setOpen] = useState(false);
 	const [progress, setProgress] = useState(0);
-	const [imgPopupProgress, setImgPopupProgress] = useState(null);
 	const navigate = useNavigate();
 
 	const handleFocus = (index) => {
@@ -75,7 +74,6 @@ export default function RenderList({
 	};
 
 	const handleClose = () => {
-		setImgPopupProgress(null);
 		setOpen(false);
 		setProgress(0);
 	};
@@ -93,7 +91,6 @@ export default function RenderList({
 		const interval = setInterval(() => {
 			fakeProgress += Math.random() * 20;
 			if (fakeProgress >= 100) {
-				setImgPopupProgress(popupProgressComleted);
 				fakeProgress = 100;
 				clearInterval(interval);
 				// Không tự động đóng popup khi hoàn tất
@@ -106,7 +103,6 @@ export default function RenderList({
 			if (fakeProgress < 100) {
 				handleClose();
 				clearInterval(interval);
-				setImgPopupProgress(null);
 			}
 		}, 10000);
 	};
@@ -170,7 +166,6 @@ export default function RenderList({
 										onClick={(e) => {
 											e.stopPropagation();
 											if (pathDownload) {
-												setImgPopupProgress(popupProgress);
 												setOpen(true);
 												setProgress(0);
 												downloadFile(pathDownload);
@@ -185,7 +180,7 @@ export default function RenderList({
 			</Grid>
 
 			<Modal
-				open={imgPopupProgress}
+				open={open}
 				onClose={handleClose}
 				aria-labelledby="download-progress-modal"
 				aria-describedby="download-progress-description"
@@ -201,7 +196,9 @@ export default function RenderList({
 						width: { xs: '80%', sm: 350, md: 360 },
 						minHeight: { xs: 250, sm: 280, md: 280 },
 						backgroundColor: '#fff',
-						backgroundImage: `url(${imgPopupProgress})`,
+						backgroundImage: `url(${
+							progress >= 100 ? popupProgressComleted : popupProgress
+						})`,
 						backgroundSize: '100% 100%',
 						backgroundPosition: 'center',
 						borderRadius: 2,
