@@ -7,7 +7,6 @@
 		"build": "vite build",
 		"preview": "vite preview"
 	},
-	"proxy": "http://downloadtestspeed.vn",
 	"dependencies": {
 		"@emotion/react": "latest",
 		"@emotion/styled": "latest",
