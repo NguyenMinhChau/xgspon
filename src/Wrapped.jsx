@@ -1,7 +1,6 @@
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import logoFPTLeadTheSpeed from './assets//logo/FPT_lead_the_speed.png';
-import bgHome from './assets/images/bg_home.png';
 import Footer from './components/Footer';
 import AppTheme from './theme/AppTheme';
 
@@ -10,10 +9,10 @@ export default function Wrapped({ children, ...props }) {
 		<AppTheme {...props}>
 			<div
 				style={{
-					backgroundImage: `url(${bgHome})`,
-					backgroundSize: 'cover',
-					backgroundPosition: 'center',
-					backgroundRepeat: 'no-repeat',
+					// backgroundImage: `url(${bgHome})`,
+					// backgroundSize: 'cover',
+					// backgroundPosition: 'center',
+					// backgroundRepeat: 'no-repeat',
 					minHeight: '100vh', // Đảm bảo div bao phủ toàn bộ chiều cao viewport
 					padding: 'clamp(20px, 5vw, 40px) clamp(20px, 5vw, 60px)', // Responsive padding
 				}}
