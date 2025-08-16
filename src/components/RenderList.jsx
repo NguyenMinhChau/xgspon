@@ -57,7 +57,7 @@ export default function RenderList({
 	const [hoveredIndex, setHoveredIndex] = useState(null);
 	const [open, setOpen] = useState(false);
 	const [progress, setProgress] = useState(0);
-	const [imgPopupProgress, setImgPopupProgress] = useState(null);
+	const [imgPopupProgress, setImgPopupProgress] = useState(popupProgress);
 	const navigate = useNavigate();
 
 	const handleFocus = (index) => {
@@ -75,7 +75,7 @@ export default function RenderList({
 	};
 
 	const handleClose = () => {
-		setImgPopupProgress(null);
+		setImgPopupProgress(popupProgress);
 		setOpen(false);
 		setProgress(0);
 	};
@@ -106,7 +106,7 @@ export default function RenderList({
 			if (fakeProgress < 100) {
 				handleClose();
 				clearInterval(interval);
-				setImgPopupProgress(null);
+				setImgPopupProgress(popupProgress);
 			}
 		}, 10000);
 	};
@@ -170,6 +170,7 @@ export default function RenderList({
 										onClick={(e) => {
 											e.stopPropagation();
 											if (pathDownload) {
+												setImgPopupProgress(popupProgress);
 												setOpen(true);
 												setProgress(0);
 												downloadFile(pathDownload);
@@ -200,7 +201,7 @@ export default function RenderList({
 						width: { xs: '80%', sm: 350, md: 360 },
 						minHeight: { xs: 250, sm: 280, md: 280 },
 						backgroundColor: '#fff',
-						backgroundImage: `url(${imgPopupProgress || popupProgress})`,
+						backgroundImage: `url(${imgPopupProgress})`,
 						backgroundSize: '100% 100%',
 						backgroundPosition: 'center',
 						borderRadius: 2,
