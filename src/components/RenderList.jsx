@@ -88,8 +88,9 @@ export default function RenderList({
 			setOpen(true);
 			setProgress(0);
 			const ip = import.meta.env.VITE_IP_V4;
+			const host = import.meta.env.VITE_HOST;
 			const protocol = 'http://'; // Hoặc 'https://' tùy môi trường
-			const downloadUrl = `${protocol}/${ip}/${pathDownload}`;
+			const downloadUrl = `${protocol}/${host}/${pathDownload}`;
 			// const downloadUrl = `/api/${pathDownload}`;
 			const response = await fetch(downloadUrl, {
 				method: 'GET',
