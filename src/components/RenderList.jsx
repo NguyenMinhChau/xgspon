@@ -80,6 +80,7 @@ export default function RenderList({
 	};
 
 	const downloadFile = (pathDownload) => {
+		setImgPopupProgress(popupProgress);
 		const ip = import.meta.env.VITE_IP_V4 || 'default-ip';
 		const protocol = 'http://'; // Hoặc 'https://' tùy môi trường
 		const downloadUrl = `${protocol}${ip}/${pathDownload}`;
