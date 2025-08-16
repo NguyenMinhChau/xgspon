@@ -11,8 +11,8 @@ import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import popupProgress from '../assets/images/popup_download.png';
-import popupProgressComleted from '../assets/images/popup_download_comleted.png';
+import popupProgress from '../assets/images/popup01.png';
+import popupProgressComleted from '../assets/images/popup02.png';
 
 const SyledCard = styled(Card)(({ theme }) => ({
 	display: 'flex',
