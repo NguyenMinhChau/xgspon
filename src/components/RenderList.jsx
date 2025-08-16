@@ -57,7 +57,7 @@ export default function RenderList({
 	const [hoveredIndex, setHoveredIndex] = useState(null);
 	const [open, setOpen] = useState(false);
 	const [progress, setProgress] = useState(0);
-	const [imgPopupProgress, setImgPopupProgress] = useState(popupProgress);
+	const [imgPopupProgress, setImgPopupProgress] = useState(null);
 	const navigate = useNavigate();
 
 	const handleFocus = (index) => {
@@ -75,7 +75,7 @@ export default function RenderList({
 	};
 
 	const handleClose = () => {
-		setImgPopupProgress(popupProgress);
+		setImgPopupProgress(null);
 		setOpen(false);
 		setProgress(0);
 	};
@@ -106,7 +106,7 @@ export default function RenderList({
 			if (fakeProgress < 100) {
 				handleClose();
 				clearInterval(interval);
-				setImgPopupProgress(popupProgress);
+				setImgPopupProgress(null);
 			}
 		}, 10000);
 	};
@@ -185,7 +185,7 @@ export default function RenderList({
 			</Grid>
 
 			<Modal
-				open={open}
+				open={imgPopupProgress}
 				onClose={handleClose}
 				aria-labelledby="download-progress-modal"
 				aria-describedby="download-progress-description"
