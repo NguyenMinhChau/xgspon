@@ -89,7 +89,7 @@ export default function RenderList({
 		const downloadUrl = `${protocol}${ip}/${pathDownload}`;
 
 		// Kích hoạt download
-		window.open(downloadUrl, '_blank');
+		window.open(downloadUrl, '_self');
 
 		// try {
 		// 	abortControllerRef.current = new AbortController();
