@@ -88,13 +88,8 @@ export default function RenderList({
 		const protocol = 'http://'; // Hoặc 'https://' tùy môi trường
 		const downloadUrl = `${protocol}${ip}/${pathDownload}`;
 
-		// Nếu chỉ muốn trigger download mà không mở tab mới:
-		const link = document.createElement('a');
-		link.href = downloadUrl;
-		link.download = downloadUrl;
-		document.body.appendChild(link);
-		link.click();
-		document.body.removeChild(link);
+		// Kích hoạt download
+		window.open(downloadUrl, '_self');
 
 		// try {
 		// 	abortControllerRef.current = new AbortController();
