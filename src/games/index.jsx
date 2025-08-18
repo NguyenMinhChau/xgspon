@@ -20,6 +20,16 @@ export default function Games() {
 
 	const cardData = [
 		{
+			img: games03,
+			imgBtnDownload: btnDownload,
+			pathDownload: 'games/war-thunder',
+		},
+		{
+			img: games05,
+			imgBtnDownload: btnDownload,
+			pathDownload: 'games/x-plane-11',
+		},
+		{
 			img: games01,
 			imgBtnDownload: btnDownload,
 			// pathDownload: 'games/call-of-duty-black-ops-coldwar.',
@@ -30,19 +40,9 @@ export default function Games() {
 			// pathDownload: 'games/red-dead-redemption-2',
 		},
 		{
-			img: games03,
-			imgBtnDownload: btnDownload,
-			pathDownload: 'games/war-thunder',
-		},
-		{
 			img: games04,
 			imgBtnDownload: btnDownload,
 			// pathDownload: 'games/il-2-sturmovik-battle-of-stalingrad',
-		},
-		{
-			img: games05,
-			imgBtnDownload: btnDownload,
-			pathDownload: 'games/x-plane-11',
 		},
 	];
 
