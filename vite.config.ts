@@ -9,6 +9,6 @@ export default defineConfig({
 		outDir: 'dist', // Thư mục đầu ra mặc định của Vite
 	},
 	server: {
-		port: 3000, // Đổi port thành 3000 (hoặc số bạn muốn)
+		port: 80, // Đổi port
 	},
 });

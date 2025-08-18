@@ -11,7 +11,8 @@ export default function OperatingSystems() {
 	const navigate = useNavigate();
 
 	const handleBackClick = () => {
-		navigate(-1); // Quay lại trang trước đó
+		// navigate(-1); // Quay lại trang trước đó
+		navigate('/');
 		// Hoặc điều hướng đến một đường dẫn cụ thể, ví dụ: navigate('/home');
 	};
 

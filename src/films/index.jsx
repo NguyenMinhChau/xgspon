@@ -3,7 +3,13 @@ import { useNavigate } from 'react-router-dom';
 import btnBack from '../assets/images/btn_back.png';
 import filmsInfoBg from '../assets/images/films_4k_info.png';
 import btnDownload from '../assets/images/films_download.png';
-import fimlsBgItem from '../assets/images/films_item.png';
+import film6dot0gb from '../assets/images/films_item6.0GB.png';
+import film6dot2gb from '../assets/images/films_item6.2GB.png';
+import film6dot4gb from '../assets/images/films_item6.4GB.png';
+import film6dot5gb from '../assets/images/films_item6.5GB.png';
+import film6dot6gb from '../assets/images/films_item6.6GB.png';
+import film6dot7gb from '../assets/images/films_item6.7GB.png';
+import film6dot8gb from '../assets/images/films_item6.8GB.png';
 import h1Films from '../assets/images/h1_films.png';
 import RenderList from '../components/RenderList';
 import Wrapped from '../Wrapped';
@@ -12,15 +18,29 @@ export default function Films() {
 	const navigate = useNavigate();
 
 	const handleBackClick = () => {
-		navigate(-1); // Quay lại trang trước đó
+		// navigate(-1); // Quay lại trang trước đó
+		navigate('/');
 		// Hoặc điều hướng đến một đường dẫn cụ thể, ví dụ: navigate('/home');
 	};
+
+	const DATA_IMG = [
+		film6dot6gb,
+		film6dot4gb,
+		film6dot6gb,
+		film6dot8gb,
+		film6dot6gb,
+		film6dot4gb,
+		film6dot2gb,
+		film6dot7gb,
+		film6dot0gb,
+		film6dot5gb,
+	];
 
 	const cardData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]?.map((item, index) => {
 		const indexFilms = `${index + 1}`; // Bắt đầu từ 1
 		return {
 			h1Text: `Tập ${indexFilms}.mkv`,
-			img: fimlsBgItem,
+			img: DATA_IMG[index],
 			imgBtnDownload: btnDownload,
 			pathDownload: `phim4k/tap${indexFilms}.mkv`,
 		};
