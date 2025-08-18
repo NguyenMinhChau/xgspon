@@ -38,7 +38,7 @@ export default function Home() {
 						alt="IMG"
 					/>
 				</div>
-				<RenderList data={cardData} />
+				<RenderList columns={5} mdColsGird={1} data={cardData} />
 			</div>
 		</Wrapped>
 	);

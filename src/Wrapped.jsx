@@ -36,7 +36,8 @@ export default function Wrapped({ children, ...props }) {
 						flexDirection: 'column',
 						padding: { xs: '24px 0 !important', md: '48px 0 !important' }, // Responsive padding
 						gap: { xs: 2, md: 4 }, // Responsive gap
-						//minHeight: 'calc(100vh - 100px)', // Trừ đi chiều cao logo/footer
+						minHeight: { md: 'calc(100vh - 200px)' },
+						margin: '0!important',
 					}}
 				>
 					{children}

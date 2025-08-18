@@ -7,7 +7,7 @@ export default function Footer() {
 				className="border-t border-white py-2 px-1 lg:!bg-transparent"
 				style={{ backgroundColor: 'rgba(0, 0, 0, 0.1)' }}
 			>
-				<div className="w-full lg:w-[60%] md:w-[80%] text-[15px] h-auto text-white">
+				<div className="w-full lg:w-[50%] md:w-[50%] text-[15px] h-auto text-white">
 					Website được sử dụng duy nhất với mục đích test/trải nghiệm tốc độ
 					download dữ liệu dung lượng lớn trong sự kiện ra mắt công nghệ XGS-PON
 					và Wi-Fi 7 của FPT

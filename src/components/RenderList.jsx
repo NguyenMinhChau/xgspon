@@ -10,8 +10,7 @@ import LinearProgress from '@mui/material/LinearProgress';
 import Modal from '@mui/material/Modal';
 import { styled } from '@mui/material/styles';
 import Typography from '@mui/material/Typography';
-import axios from 'axios';
-import React, { useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import popupProgressComleted from '../assets/images/popup02.png';
 
@@ -84,58 +83,71 @@ export default function RenderList({
 	};
 
 	const downloadFile = async (pathDownload) => {
-		try {
-			abortControllerRef.current = new AbortController();
-			setOpen(true);
-			setProgress(0);
+		const ip = import.meta.env.VITE_IP_V4;
+		const host = import.meta.env.VITE_HOST;
+		const protocol = 'http://'; // Hoặc 'https://' tùy môi trường
+		const downloadUrl = `${protocol}${ip}/${pathDownload}`;
 
-			const ip = import.meta.env.VITE_IP_V4;
-			const host = import.meta.env.VITE_HOST;
-			const protocol = 'http://'; // Hoặc 'https://' tùy môi trường
-			const downloadUrl = `${protocol}${host}/${pathDownload}`;
+		// Nếu chỉ muốn trigger download mà không mở tab mới:
+		const link = document.createElement('a');
+		link.href = downloadUrl;
+		link.download = downloadUrl;
+		document.body.appendChild(link);
+		link.click();
+		document.body.removeChild(link);
 
-			const response = await axios.get(downloadUrl, {
-				responseType: 'blob', // Important for handling binary data
-				headers: {
-					'Content-Type': 'application/octet-stream',
-				},
-				signal: abortControllerRef.current.signal,
-				onDownloadProgress: (progressEvent) => {
-					const total = progressEvent.total;
-					const loaded = progressEvent.loaded;
-					setProgress(total ? (loaded / total) * 100 : 0);
-				},
-			});
+		// try {
+		// 	abortControllerRef.current = new AbortController();
+		// 	setOpen(true);
+		// 	setProgress(0);
 
-			const blob = response.data;
-			const url = URL.createObjectURL(blob);
+		// 	const ip = import.meta.env.VITE_IP_V4;
+		// 	const host = import.meta.env.VITE_HOST;
+		// 	const protocol = 'http://'; // Hoặc 'https://' tùy môi trường
+		// 	const downloadUrl = `${protocol}${host}/${pathDownload}`;
 
-			const contentDisposition = response.headers['content-disposition'];
-			let fileName = pathDownload.split('/').pop();
-			if (contentDisposition && contentDisposition.includes('filename=')) {
-				const match = contentDisposition.match(/filename="([^"]+)"/);
-				if (match) fileName = match[1];
-			}
+		// 	const response = await axios.get(downloadUrl, {
+		// 		responseType: 'blob', // Important for handling binary data
+		// 		headers: {
+		// 			'Content-Type': 'application/octet-stream',
+		// 		},
+		// 		signal: abortControllerRef.current.signal,
+		// 		onDownloadProgress: (progressEvent) => {
+		// 			const total = progressEvent.total;
+		// 			const loaded = progressEvent.loaded;
+		// 			setProgress(total ? (loaded / total) * 100 : 0);
+		// 		},
+		// 	});
 
-			const link = document.createElement('a');
-			link.href = url;
-			link.download = fileName || 'downloaded_file';
-			document.body.appendChild(link);
-			link.click();
+		// 	const blob = response.data;
+		// 	const url = URL.createObjectURL(blob);
 
-			document.body.removeChild(link);
-			URL.revokeObjectURL(url);
-			setOpen(false);
-			setProgress(100);
-		} catch (error) {
-			if (error.name !== 'AbortError') {
-				console.error('Download error:', error);
-			}
-			setOpen(false);
-			setProgress(0);
-		} finally {
-			abortControllerRef.current = null;
-		}
+		// 	const contentDisposition = response.headers['content-disposition'];
+		// 	let fileName = pathDownload.split('/').pop();
+		// 	if (contentDisposition && contentDisposition.includes('filename=')) {
+		// 		const match = contentDisposition.match(/filename="([^"]+)"/);
+		// 		if (match) fileName = match[1];
+		// 	}
+
+		// 	const link = document.createElement('a');
+		// 	link.href = url;
+		// 	link.download = fileName || 'downloaded_file';
+		// 	document.body.appendChild(link);
+		// 	link.click();
+
+		// 	document.body.removeChild(link);
+		// 	URL.revokeObjectURL(url);
+		// 	setOpen(false);
+		// 	setProgress(100);
+		// } catch (error) {
+		// 	if (error.name !== 'AbortError') {
+		// 		console.error('Download error:', error);
+		// 	}
+		// 	setOpen(false);
+		// 	setProgress(0);
+		// } finally {
+		// 	abortControllerRef.current = null;
+		// }
 	};
 
 	return (
@@ -166,7 +178,11 @@ export default function RenderList({
 								}}
 								tabIndex={0}
 								className={hoveredIndex === index ? 'Mui-focused' : ''}
-								sx={{ height: '100%' }}
+								sx={{
+									height: '100%',
+									backgroundColor: 'transparent!important',
+									border: 'none!important',
+								}}
 							>
 								{h1Text && (
 									<div
@@ -245,7 +261,8 @@ export default function RenderList({
 							position: 'absolute',
 							right: 8,
 							top: 8,
-							color: '#000',
+							color: '#000!important',
+							backgroundColor: '#FFF!important',
 						}}
 					>
 						<CloseIcon />
@@ -253,7 +270,7 @@ export default function RenderList({
 					{/* CONTENT THÔNG BÁO ĐANG UPLOAD FILE */}
 					{progress < 100 && (
 						<div className="flex flex-col items-center justìy-center gap-2">
-							<DownloadIcon sx={{ fontSize: 40, color: '#8FCDEB' }} />
+							<DownloadIcon sx={{ fontSize: 40, color: '#8FCDEB!important' }} />
 							<Typography
 								id="download-progress-description"
 								variant="h6"
@@ -267,7 +284,7 @@ export default function RenderList({
 								variant="h6"
 								component="h6"
 								sx={{
-									color: '#000',
+									color: '#000!important',
 									fontWeight: 500,
 									fontSize: 14,
 									textAlign: 'center',
@@ -296,10 +313,10 @@ export default function RenderList({
 								height: 10,
 								borderRadius: 5,
 								mb: 2,
-								backgroundColor: '#EEF9FF',
+								backgroundColor: '#EEF9FF!important',
 								'& .MuiLinearProgress-bar': {
 									borderRadius: 5,
-									backgroundColor: '#8FCDEB',
+									backgroundColor: '#8FCDEB!important',
 								},
 							}}
 						/>
