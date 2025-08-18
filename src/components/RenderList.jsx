@@ -75,9 +75,9 @@ export default function RenderList({
 	};
 
 	const handleClose = () => {
-		if (abortControllerRef.current) {
-			abortControllerRef.current.abort();
-		}
+		// if (abortControllerRef.current) {
+		// 	abortControllerRef.current.abort();
+		// }
 		setOpen(false);
 		setProgress(0);
 	};
