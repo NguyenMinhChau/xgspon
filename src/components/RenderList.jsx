@@ -83,67 +83,64 @@ export default function RenderList({
 	};
 
 	const downloadFile = (pathDownload) => {
-		const ip = import.meta.env.VITE_IP_V4;
-		const host = import.meta.env.VITE_HOST;
-		const protocol = 'http://'; // Hoặc 'https://' tùy môi trường
-		const downloadUrl = `${protocol}${ip}/${pathDownload}`;
+		const host_ip = import.meta.env.VITE_IP_V4;
+		const downloadUrl = `${host_ip}/${pathDownload}`;
 
 		// Kích hoạt download
 		window.open(downloadUrl, '_self');
-
-		// try {
-		// 	abortControllerRef.current = new AbortController();
-		// 	setOpen(true);
-		// 	setProgress(0);
-
-		// 	const ip = import.meta.env.VITE_IP_V4;
-		// 	const host = import.meta.env.VITE_HOST;
-		// 	const protocol = 'http://'; // Hoặc 'https://' tùy môi trường
-		// 	const downloadUrl = `${protocol}${host}/${pathDownload}`;
-
-		// 	const response = await axios.get(downloadUrl, {
-		// 		responseType: 'blob', // Important for handling binary data
-		// 		headers: {
-		// 			'Content-Type': 'application/octet-stream',
-		// 		},
-		// 		signal: abortControllerRef.current.signal,
-		// 		onDownloadProgress: (progressEvent) => {
-		// 			const total = progressEvent.total;
-		// 			const loaded = progressEvent.loaded;
-		// 			setProgress(total ? (loaded / total) * 100 : 0);
-		// 		},
-		// 	});
-
-		// 	const blob = response.data;
-		// 	const url = URL.createObjectURL(blob);
-
-		// 	const contentDisposition = response.headers['content-disposition'];
-		// 	let fileName = pathDownload.split('/').pop();
-		// 	if (contentDisposition && contentDisposition.includes('filename=')) {
-		// 		const match = contentDisposition.match(/filename="([^"]+)"/);
-		// 		if (match) fileName = match[1];
-		// 	}
-
-		// 	const link = document.createElement('a');
-		// 	link.href = url;
-		// 	link.download = fileName || 'downloaded_file';
-		// 	document.body.appendChild(link);
-		// 	link.click();
-
-		// 	document.body.removeChild(link);
-		// 	URL.revokeObjectURL(url);
-		// 	setOpen(false);
-		// 	setProgress(100);
-		// } catch (error) {
-		// 	if (error.name !== 'AbortError') {
-		// 		console.error('Download error:', error);
-		// 	}
-		// 	setOpen(false);
-		// 	setProgress(0);
-		// } finally {
-		// 	abortControllerRef.current = null;
-		// }
 	};
+	// try {
+	// 	abortControllerRef.current = new AbortController();
+	// 	setOpen(true);
+	// 	setProgress(0);
+
+	// 	const ip = import.meta.env.VITE_IP_V4;
+	// 	const host = import.meta.env.VITE_HOST;
+	// 	const protocol = 'http://'; // Hoặc 'https://' tùy môi trường
+	// 	const downloadUrl = `${protocol}${host}/${pathDownload}`;
+
+	// 	const response = await axios.get(downloadUrl, {
+	// 		responseType: 'blob', // Important for handling binary data
+	// 		headers: {
+	// 			'Content-Type': 'application/octet-stream',
+	// 		},
+	// 		signal: abortControllerRef.current.signal,
+	// 		onDownloadProgress: (progressEvent) => {
+	// 			const total = progressEvent.total;
+	// 			const loaded = progressEvent.loaded;
+	// 			setProgress(total ? (loaded / total) * 100 : 0);
+	// 		},
+	// 	});
+
+	// 	const blob = response.data;
+	// 	const url = URL.createObjectURL(blob);
+
+	// 	const contentDisposition = response.headers['content-disposition'];
+	// 	let fileName = pathDownload.split('/').pop();
+	// 	if (contentDisposition && contentDisposition.includes('filename=')) {
+	// 		const match = contentDisposition.match(/filename="([^"]+)"/);
+	// 		if (match) fileName = match[1];
+	// 	}
+
+	// 	const link = document.createElement('a');
+	// 	link.href = url;
+	// 	link.download = fileName || 'downloaded_file';
+	// 	document.body.appendChild(link);
+	// 	link.click();
+
+	// 	document.body.removeChild(link);
+	// 	URL.revokeObjectURL(url);
+	// 	setOpen(false);
+	// 	setProgress(100);
+	// } catch (error) {
+	// 	if (error.name !== 'AbortError') {
+	// 		console.error('Download error:', error);
+	// 	}
+	// 	setOpen(false);
+	// 	setProgress(0);
+	// } finally {
+	// 	abortControllerRef.current = null;
+	// }
 
 	return (
 		<>
