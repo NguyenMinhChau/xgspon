@@ -43,7 +43,7 @@ export default function OperatingSystems() {
 						alt="IMG"
 					/>
 				</div>
-				<div className="w-[min(200px,50vw)] h-auto mb-4">
+				<div className="w-[min(200px,50vw)] h-auto mt-4 mb-8">
 					<img
 						src={h1Systems}
 						className="w-full h-auto object-contain"

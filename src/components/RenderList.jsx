@@ -35,7 +35,7 @@ const SyledCard = styled(Card)(({ theme }) => ({
 
 const DownloadButton = styled('img')(({ theme }) => ({
 	position: 'absolute',
-	bottom: '10px',
+	bottom: '15px',
 	left: '50%',
 	transform: 'translateX(-50%)',
 	width: '95%',
@@ -178,7 +178,7 @@ export default function RenderList({
                       top-4 
                       left-4 lg:top-3 lg:left-3
                       md:top-8 md:left-8
-                      text-[#19335A] 
+                      text-[#FFF] 
                       rounded-md 
                       uppercase 
                       font-bold 

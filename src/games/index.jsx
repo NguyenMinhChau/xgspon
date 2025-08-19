@@ -1,9 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import btnBack from '../assets/images/btn_back.png';
-import games01 from '../assets/images/games_1.png';
-import games02 from '../assets/images/games_2.png';
 import games03 from '../assets/images/games_3.png';
-import games04 from '../assets/images/games_4.png';
 import games05 from '../assets/images/games_5.png';
 import btnDownload from '../assets/images/games_download.png';
 import h1Games from '../assets/images/h1_games.png';
@@ -61,7 +58,7 @@ export default function Games() {
 						alt="IMG"
 					/>
 				</div>
-				<div className="w-[min(200px,50vw)] h-auto mb-4">
+				<div className="w-[min(200px,50vw)] h-auto mt-4 mb-8">
 					<img
 						src={h1Games}
 						className="w-full h-auto object-contain"

@@ -30,7 +30,7 @@ export default function Home() {
 	return (
 		<Wrapped>
 			<div className="py-3 flex flex-col">
-				<div className="w-[min(500px,90vw)] h-auto mb-4">
+				<div className="w-[min(500px,90vw)] h-auto mb-8">
 					<img
 						src={h1Home}
 						className="w-full h-auto object-contain"

@@ -36,7 +36,7 @@ export default function Films() {
 		film6dot63gb,
 		film7dot23gb,
 		film6dot46gb,
-		film6dot94gb
+		film6dot94gb,
 	];
 
 	const cardData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]?.map((item, index) => {
@@ -63,7 +63,7 @@ export default function Films() {
 						alt="IMG"
 					/>
 				</div>
-				<div className="w-[min(200px,50vw)] h-auto mb-4">
+				<div className="w-[min(200px,50vw)] h-auto mt-4 mb-8">
 					<img
 						src={h1Films}
 						className="w-full h-auto object-contain"
