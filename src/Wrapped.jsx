@@ -1,7 +1,6 @@
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useNavigate } from 'react-router-dom';
-import logoFPTLeadTheSpeed from './assets//logo/FPT_lead_the_speed.png';
 import Footer from './components/Footer';
 import AppTheme from './theme/AppTheme';
 
@@ -22,17 +21,17 @@ export default function Wrapped({ children, ...props }) {
 				<CssBaseline enableColorScheme />
 
 				<div
-					className="w-[min(300px,90vw)] h-auto cursor-pointer"
-					onClick={() => {
-						navigate('/');
-					}}
+					className="w-[min(300px,90vw)] h-[50px] cursor-pointer"
+					// onClick={() => {
+					// 	navigate('/');
+					// }}
 				>
-					<img
+					{/* <img
 						src={logoFPTLeadTheSpeed}
 						className="w-full h-auto object-contain"
 						loading="lazy"
 						alt="IMG"
-					/>
+					/> */}
 				</div>
 
 				<Container
