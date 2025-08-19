@@ -1,3 +1,4 @@
+import bgHome from '../assets/images/bg_home.png';
 import cardFilms4k from '../assets/images/card_films.png';
 import cardFilms4kHover from '../assets/images/card_films_hover.png';
 import cardGames from '../assets/images/card_game.png';
@@ -28,7 +29,15 @@ const cardData = [
 
 export default function Home() {
 	return (
-		<Wrapped>
+		<Wrapped
+			styleDiv={{
+				backgroundImage: `url(${bgHome})`,
+				backgroundSize: 'cover',
+				backgroundPosition: 'center',
+				backgroundRepeat: 'no-repeat',
+				backgroundAttachment: 'fixed',
+			}}
+		>
 			<div className="py-3 flex flex-col">
 				<div className="w-[min(500px,90vw)] h-auto mb-8">
 					<img

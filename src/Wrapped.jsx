@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import Footer from './components/Footer';
 import AppTheme from './theme/AppTheme';
 
-export default function Wrapped({ children, ...props }) {
+export default function Wrapped({ children, styleDiv, ...props }) {
 	const navigate = useNavigate();
 	return (
 		<AppTheme {...props}>
@@ -16,6 +16,7 @@ export default function Wrapped({ children, ...props }) {
 					// backgroundRepeat: 'no-repeat',
 					minHeight: '100vh', // Đảm bảo div bao phủ toàn bộ chiều cao viewport
 					padding: 'clamp(20px, 5vw, 40px) clamp(20px, 5vw, 60px)', // Responsive padding
+					...(styleDiv || {}),
 				}}
 			>
 				<CssBaseline enableColorScheme />
