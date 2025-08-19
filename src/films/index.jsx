@@ -1,15 +1,18 @@
 import { Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import film6dot46gb from '../assets/images//films_item6.46GB.png';
 import btnBack from '../assets/images/btn_back.png';
 import filmsInfoBg from '../assets/images/films_4k_info.png';
 import btnDownload from '../assets/images/films_download.png';
-import film6dot0gb from '../assets/images/films_item6.0GB.png';
-import film6dot2gb from '../assets/images/films_item6.2GB.png';
-import film6dot4gb from '../assets/images/films_item6.4GB.png';
-import film6dot5gb from '../assets/images/films_item6.5GB.png';
-import film6dot6gb from '../assets/images/films_item6.6GB.png';
-import film6dot7gb from '../assets/images/films_item6.7GB.png';
-import film6dot8gb from '../assets/images/films_item6.8GB.png';
+import film6dot63gb from '../assets/images/films_item6.63GB.png';
+import film6dot83gb from '../assets/images/films_item6.83GB.png';
+import film6dot85gb from '../assets/images/films_item6.85GB.png';
+import film6dot94gb from '../assets/images/films_item6.94GB.png';
+import film7dot09gb from '../assets/images/films_item7.09GB.png';
+import film7dot13gb from '../assets/images/films_item7.13GB.png';
+import film7dot1gb from '../assets/images/films_item7.1GB.png';
+import film7dot23gb from '../assets/images/films_item7.23GB.png';
+import film7dot32gb from '../assets/images/films_item7.32GB.png';
 import h1Films from '../assets/images/h1_films.png';
 import RenderList from '../components/RenderList';
 import Wrapped from '../Wrapped';
@@ -24,16 +27,16 @@ export default function Films() {
 	};
 
 	const DATA_IMG = [
-		film6dot6gb,
-		film6dot4gb,
-		film6dot6gb,
-		film6dot8gb,
-		film6dot6gb,
-		film6dot4gb,
-		film6dot2gb,
-		film6dot7gb,
-		film6dot0gb,
-		film6dot5gb,
+		film7dot13gb,
+		film6dot83gb,
+		film7dot09gb,
+		film7dot32gb,
+		film7dot1gb,
+		film6dot85gb,
+		film6dot63gb,
+		film7dot23gb,
+		film6dot46gb,
+		film6dot94gb
 	];
 
 	const cardData = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]?.map((item, index) => {
