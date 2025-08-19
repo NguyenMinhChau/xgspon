@@ -21,7 +21,7 @@ export default function Wrapped({ children, ...props }) {
 				<CssBaseline enableColorScheme />
 
 				<div
-					className="w-[min(300px,90vw)] h-[50px] cursor-pointer"
+					className="w-[min(300px,90vw)] h-[30px] cursor-pointer"
 					// onClick={() => {
 					// 	navigate('/');
 					// }}
