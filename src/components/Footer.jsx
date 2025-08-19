@@ -10,7 +10,7 @@ export default function Footer() {
 					borderTop: '1px solid #FFFFFF2A',
 				}}
 			>
-				<div className="w-full text-[15px] h-auto text-white">
+				<div className="w-full md:w-[50%] text-[15px] h-auto text-white">
 					Website được sử dụng duy nhất với mục đích test/trải nghiệm tốc độ
 					download dữ liệu dung lượng lớn trong sự kiện ra mắt công nghệ XGS-PON
 					và Wi-Fi 7 của FPT
