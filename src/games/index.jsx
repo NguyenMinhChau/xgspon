@@ -30,21 +30,21 @@ export default function Games() {
 			imgBtnDownload: btnDownload,
 			pathDownload: 'games/x-plane-11',
 		},
-		{
-			img: games01,
-			imgBtnDownload: btnDownload,
-			// pathDownload: 'games/call-of-duty-black-ops-coldwar.',
-		},
-		{
-			img: games02,
-			imgBtnDownload: btnDownload,
-			// pathDownload: 'games/red-dead-redemption-2',
-		},
-		{
-			img: games04,
-			imgBtnDownload: btnDownload,
-			// pathDownload: 'games/il-2-sturmovik-battle-of-stalingrad',
-		},
+		// {
+		// 	img: games01,
+		// 	imgBtnDownload: btnDownload,
+		// 	// pathDownload: 'games/call-of-duty-black-ops-coldwar.',
+		// },
+		// {
+		// 	img: games02,
+		// 	imgBtnDownload: btnDownload,
+		// 	// pathDownload: 'games/red-dead-redemption-2',
+		// },
+		// {
+		// 	img: games04,
+		// 	imgBtnDownload: btnDownload,
+		// 	// pathDownload: 'games/il-2-sturmovik-battle-of-stalingrad',
+		// },
 	];
 
 	return (
