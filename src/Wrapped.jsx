@@ -1,7 +1,6 @@
 import Container from '@mui/material/Container';
 import CssBaseline from '@mui/material/CssBaseline';
 import { useNavigate } from 'react-router-dom';
-import Footer from './components/Footer';
 import AppTheme from './theme/AppTheme';
 
 export default function Wrapped({ children, styleDiv, ...props }) {
@@ -49,7 +48,7 @@ export default function Wrapped({ children, styleDiv, ...props }) {
 				>
 					{children}
 				</Container>
-				<Footer />
+				{/* <Footer /> */}
 			</div>
 		</AppTheme>
 	);
